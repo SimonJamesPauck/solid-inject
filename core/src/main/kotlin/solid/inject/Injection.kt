@@ -1,30 +1,31 @@
 package solid.inject
 
 import solid.inject.core.CoreProviderRegistry
+import solid.inject.core.CoreScopedRegistry
 import solid.inject.core.OverrideProviderRegistry
-import solid.inject.core.ProviderRegistry
+import solid.inject.core.ScopedRegistry
 
 class Injection(
   @PublishedApi
-  internal val providerRegistry: ProviderRegistry)
+  internal val registry: ScopedRegistry)
 {
   /**
    * Suggested constructor for typical use.
    */
-  constructor() : this(CoreProviderRegistry())
+  constructor() : this(CoreScopedRegistry(CoreProviderRegistry()))
 
   inline fun <reified K, reified Y> bind() where Y : K
   {
     val abstract = K::class.qualifiedName!!
     val implementer = Y::class.qualifiedName!!
-    providerRegistry.bind(abstract, implementer)
+    registry.bind(abstract, implementer)
   }
 
   inline fun <reified K> provider(
     noinline constr: Injection.() -> K)
   {
     val key = K::class.qualifiedName!!
-    providerRegistry.register(key) { provReg -> constr(Injection(provReg)) }
+    registry.register(key) { core -> constr(Injection(core)) }
   }
 
   inline fun <reified K> register(
@@ -49,14 +50,22 @@ class Injection(
   {
     val key = K::class.qualifiedName!!
     // Potential for optional call here
-    return providerRegistry.gimme(key)!!.invoke(providerRegistry) as K
+    return registry.gimme(key)!!.invoke(registry) as K
+  }
+
+  inline fun <reified T, reified U> scope()
+  {
+    val scopeThis = U::class.qualifiedName!!
+    val toThat = T::class.qualifiedName!!
+    registry.scope(toThat, scopeThis)
   }
 
   fun fork(): Injection
   {
     return Injection(
-      OverrideProviderRegistry(
-        providerRegistry,
-        CoreProviderRegistry()))
+      CoreScopedRegistry(
+        OverrideProviderRegistry(
+          registry,
+          CoreProviderRegistry())))
   }
 }
