@@ -1,6 +1,7 @@
 package solid.inject
 
 import solid.inject.core.CoreProviderRegistry
+import solid.inject.core.OverrideProviderRegistry
 import solid.inject.core.ProviderRegistry
 
 class Injection(
@@ -23,7 +24,7 @@ class Injection(
     noinline constr: Injection.() -> K)
   {
     val key = K::class.qualifiedName!!
-    providerRegistry.register(key) { constr(this) }
+    providerRegistry.register(key) { provReg -> constr(Injection(provReg)) }
   }
 
   inline fun <reified K> register(
@@ -48,6 +49,14 @@ class Injection(
   {
     val key = K::class.qualifiedName!!
     // Potential for optional call here
-    return providerRegistry.gimme(key)!!.invoke() as K
+    return providerRegistry.gimme(key)!!.invoke(providerRegistry) as K
+  }
+
+  fun fork(): Injection
+  {
+    return Injection(
+      OverrideProviderRegistry(
+        providerRegistry,
+        CoreProviderRegistry()))
   }
 }
