@@ -1,7 +1,6 @@
 package solid.inject
 
 import solid.inject.core.CoreProviderRegistry
-import solid.inject.core.OverrideProviderRegistry
 import solid.inject.core.ProviderRegistry
 
 class Injection(
@@ -61,9 +60,6 @@ class Injection(
 
   fun fork(): Injection
   {
-    return Injection(
-      OverrideProviderRegistry(
-        registry,
-        CoreProviderRegistry()))
+    return Injection(registry.fork())
   }
 }

@@ -1,10 +1,10 @@
 package solid.inject.core
 
-class CoreProviderRegistry : ProviderRegistry
+class CoreProviderRegistry(
+  private val bindings: MutableMap<String, String> = LinkedHashMap(),
+  private val registrations: MutableMap<String, Provider> = LinkedHashMap(),
+  private val scopes: MutableMap<String, MutableSet<String>> = LinkedHashMap()) : ProviderRegistry
 {
-  private val bindings = HashMap<String, String>()
-  private val registrations = HashMap<String, Provider>()
-  private val scopes = mutableMapOf<String, MutableSet<String>>()
 
   override fun bind(
     abstractionId: String,
@@ -53,9 +53,7 @@ class CoreProviderRegistry : ProviderRegistry
     else
     {
       { context ->
-        val scopedInject = OverrideProviderRegistry(
-          context,
-          CoreProviderRegistry())
+        val scopedInject = context.fork()
 
         for (instanceId in theseScopes)
         {
@@ -67,5 +65,13 @@ class CoreProviderRegistry : ProviderRegistry
         wrap!!.invoke(scopedInject)
       }
     }
+  }
+
+  override fun fork(): ProviderRegistry
+  {
+    return CoreProviderRegistry(
+      LinkedHashMap(bindings),
+      LinkedHashMap(registrations),
+      LinkedHashMap(scopes))
   }
 }

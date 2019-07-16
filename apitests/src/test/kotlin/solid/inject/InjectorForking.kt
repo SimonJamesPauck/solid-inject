@@ -1,6 +1,7 @@
 package solid.inject
 
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatExceptionOfType
 import org.junit.jupiter.api.Test
 
 class InjectorForking
@@ -21,17 +22,36 @@ class InjectorForking
   }
 
   @Test
-  fun `child (forked) injector can use parent`()
+  fun `child (forked) injector inherits parent registrations`()
+  {
+    val facade1 = Injection()
+    facade1.register(InjectorForking::C)
+    val facade2 = facade1.fork()
+
+    assertThat(facade2.gimme<C>()).isNotNull
+  }
+
+  @Test
+  fun `child (forked) injector is not mutated by parent registrations`()
   {
     val facade1 = Injection()
     val facade2 = facade1.fork()
-    facade1.register(InjectorForking::B)
-    facade2.register(InjectorForking::C)
+    facade1.register(InjectorForking::C)
 
-    assertThat(facade2.gimme<B>()).isNotNull
+    assertThatExceptionOfType(KotlinNullPointerException::class.java)
+      .isThrownBy { facade2.gimme<C>() }
   }
 
-  class B(val c: C)
+  @Test
+  fun `parent injector is not mutated by child (forked) registrations`()
+  {
+    val facade1 = Injection()
+    val facade2 = facade1.fork()
+    facade2.register(InjectorForking::C)
+
+    assertThatExceptionOfType(KotlinNullPointerException::class.java)
+      .isThrownBy { facade1.gimme<C>() }
+  }
 
   class C
 }

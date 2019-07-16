@@ -53,5 +53,7 @@ internal class OnceOffTest
     override fun gimme(id: String): Provider? = throw NotImplementedError()
 
     override fun scope(toThat: String, scopeThis: String) = throw NotImplementedError()
+
+    override fun fork(): ProviderRegistry = throw NotImplementedError()
   }
 }

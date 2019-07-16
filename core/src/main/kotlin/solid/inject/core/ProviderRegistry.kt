@@ -16,4 +16,6 @@ interface ProviderRegistry
 
   fun gimme(
     id: String): Provider?
+
+  fun fork(): ProviderRegistry
 }
