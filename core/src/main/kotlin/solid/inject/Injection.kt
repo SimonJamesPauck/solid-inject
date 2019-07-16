@@ -1,18 +1,17 @@
 package solid.inject
 
 import solid.inject.core.CoreProviderRegistry
-import solid.inject.core.CoreScopedRegistry
 import solid.inject.core.OverrideProviderRegistry
-import solid.inject.core.ScopedRegistry
+import solid.inject.core.ProviderRegistry
 
 class Injection(
   @PublishedApi
-  internal val registry: ScopedRegistry)
+  internal val registry: ProviderRegistry)
 {
   /**
    * Suggested constructor for typical use.
    */
-  constructor() : this(CoreScopedRegistry(CoreProviderRegistry()))
+  constructor() : this(CoreProviderRegistry())
 
   inline fun <reified K, reified Y> bind() where Y : K
   {
@@ -63,9 +62,8 @@ class Injection(
   fun fork(): Injection
   {
     return Injection(
-      CoreScopedRegistry(
-        OverrideProviderRegistry(
-          registry,
-          CoreProviderRegistry())))
+      OverrideProviderRegistry(
+        registry,
+        CoreProviderRegistry()))
   }
 }

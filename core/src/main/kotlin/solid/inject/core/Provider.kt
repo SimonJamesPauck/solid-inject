@@ -1,3 +1,3 @@
 package solid.inject.core
 
-typealias Provider = (ScopedRegistry) -> Any?
+typealias Provider = (ProviderRegistry) -> Any?

@@ -10,6 +10,10 @@ interface ProviderRegistry
     id: String,
     provider: Provider)
 
+  fun scope(
+    toThat: String,
+    scopeThis: String)
+
   fun gimme(
     id: String): Provider?
 }

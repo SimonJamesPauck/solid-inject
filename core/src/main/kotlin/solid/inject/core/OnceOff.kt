@@ -13,5 +13,5 @@ internal class OnceOff(initialProvider: Provider) : Provider
     }
   }
 
-  override fun invoke(registry: ScopedRegistry) = provider.invoke(registry)
+  override fun invoke(registry: ProviderRegistry) = provider.invoke(registry)
 }

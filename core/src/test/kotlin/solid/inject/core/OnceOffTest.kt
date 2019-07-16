@@ -44,7 +44,7 @@ internal class OnceOffTest
 
   private class Capture(val arg: Any)
 
-  private class StubScopedRegistry : ScopedRegistry
+  private class StubScopedRegistry : ProviderRegistry
   {
     override fun bind(abstractionId: String, implementerId: String) = throw NotImplementedError()
 
