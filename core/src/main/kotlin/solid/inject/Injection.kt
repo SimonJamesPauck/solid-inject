@@ -44,4 +44,27 @@ class Injection(
   {
     return Injection(registry.fork())
   }
+
+  public val genRegistry = LinkedHashMap<String, GenProv>()
+
+  inline fun <reified K> registerGeneric(
+    constr: GenProv)
+  {
+    val key = K::class.qualifiedName!!
+    println(key)
+    genRegistry.put(key, constr) //{ core -> constr.give(Injection(core)) }
+  }
+
+  inline fun <reified K, reified T> gimmeGeneric(): K
+  {
+    val key = K::class.qualifiedName!!
+    println(key)
+    // Potential for optional call here
+    return genRegistry.get(key)!!.give<T>(this) as K
+  }
+
+  public interface GenProv
+  {
+    fun <T> give(injection: Injection): Any?
+  }
 }

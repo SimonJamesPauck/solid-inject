@@ -17,4 +17,4 @@ The main identified shortcomings of manual dependency management are
 
 Additional goals might include the following
 
-- Make it easy to visualise and debug the dependency graph.
+- Make it easy to visualize and debug the dependency graph.
