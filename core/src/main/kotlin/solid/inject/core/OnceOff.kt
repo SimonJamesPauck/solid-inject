@@ -1,8 +1,8 @@
 package solid.inject.core
 
-internal class OnceOff(initialProvider: Provider) : Provider
+internal class OnceOff(initialProvider: Provider<*>) : Provider<Any?>
 {
-  private var provider: Provider
+  private var provider: Provider<*>
 
   init
   {

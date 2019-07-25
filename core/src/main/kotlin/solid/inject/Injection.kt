@@ -1,6 +1,7 @@
 package solid.inject
 
 import solid.inject.core.CoreProviderRegistry
+import solid.inject.core.Provider
 import solid.inject.core.ProviderRegistry
 
 class Injection(
@@ -45,7 +46,7 @@ class Injection(
     return Injection(registry.fork())
   }
 
-  public val genRegistry = LinkedHashMap<String, GenProv>()
+  public val genRegistry = LinkedHashMap<String, GenProv<*>>()
 
   inline fun <reified K> registerGeneric(
     constr: GenProv<K>)
@@ -67,4 +68,13 @@ class Injection(
   {
     fun <T> give(injection: ProviderRegistry): K?
   }
+
+//  class ProviderWrapper(
+//    private val provider: Provider<*>) : GenProv
+//  {
+//    override fun <T> give(injection: ProviderRegistry): T?
+//    {
+//      return provider.invoke(injection.registry) as T?
+//    }
+//  }
 }

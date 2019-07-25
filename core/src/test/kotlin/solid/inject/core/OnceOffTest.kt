@@ -48,9 +48,9 @@ internal class OnceOffTest
   {
     override fun bind(abstractionId: String, implementerId: String) = throw NotImplementedError()
 
-    override fun register(id: String, provider: Provider) = throw NotImplementedError()
+    override fun register(id: String, provider: Provider<*>) = throw NotImplementedError()
 
-    override fun gimme(id: String): Provider? = throw NotImplementedError()
+    override fun gimme(id: String): Provider<*>? = throw NotImplementedError()
 
     override fun scope(toThat: String, scopeThis: String) = throw NotImplementedError()
 

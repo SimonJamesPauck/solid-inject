@@ -8,14 +8,14 @@ interface ProviderRegistry
 
   fun register(
     id: String,
-    provider: Provider)
+    provider: Provider<*>)
 
   fun scope(
     toThat: String,
     scopeThis: String)
 
   fun gimme(
-    id: String): Provider?
+    id: String): Provider<*>?
 
   fun fork(): ProviderRegistry
 }
