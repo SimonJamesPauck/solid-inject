@@ -26,24 +26,6 @@ class Injection(
     registry.register(key) { core -> constr(Injection(core)) }
   }
 
-  inline fun <reified K> register(
-    noinline constr: () -> K)
-  {
-    provider { constr() }
-  }
-
-  inline fun <reified K, reified A> register(
-    noinline constr: (A) -> K)
-  {
-    provider { constr(gimme()) }
-  }
-
-  inline fun <reified K, reified A, reified B> register(
-    noinline constr: (A, B) -> K)
-  {
-    provider { constr(gimme(), gimme()) }
-  }
-
   inline fun <reified K> gimme(): K
   {
     val key = K::class.qualifiedName!!
