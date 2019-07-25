@@ -48,23 +48,23 @@ class Injection(
   public val genRegistry = LinkedHashMap<String, GenProv>()
 
   inline fun <reified K> registerGeneric(
-    constr: GenProv)
+    constr: GenProv<K>)
   {
     val key = K::class.qualifiedName!!
     println(key)
     genRegistry.put(key, constr) //{ core -> constr.give(Injection(core)) }
   }
 
-  inline fun <reified K, reified T> gimmeGeneric(): K
+  inline fun <reified K> gimmeGeneric(): K
   {
     val key = K::class.qualifiedName!!
     println(key)
     // Potential for optional call here
-    return genRegistry.get(key)!!.give<T>(this) as K
+    return genRegistry.get(key)!!.give<K>(registry) as K
   }
 
-  public interface GenProv
+  interface GenProv<K>
   {
-    fun <T> give(injection: Injection): Any?
+    fun <T> give(injection: ProviderRegistry): K?
   }
 }
