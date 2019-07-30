@@ -1,4 +1,5 @@
 rootProject.name = "solid inject"
 include 'core'
 include 'apitests'
+include 'generated'
 
