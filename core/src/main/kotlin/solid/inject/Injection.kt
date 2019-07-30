@@ -61,7 +61,7 @@ class Injection(
     val key = K::class.qualifiedName!!
     println(key)
     // Potential for optional call here
-    return genRegistry.get(key)!!.give<K>(registry) as K
+    return (genRegistry.get(key)!! as GenProv<K>).give<K>(registry) as K
   }
 
   interface GenProv<K>

@@ -10,14 +10,14 @@ class Generics
   fun `gene`()
   {
     val inject = Injection()
-    inject.registerGeneric(object : Injection.GenProv<List<*>>
+    inject.registerGeneric(object : Injection.GenProv<Map<*,*>>
     {
-      override fun <T> give(injection: ProviderRegistry): MutableList<T> = ArrayList()
+      override fun <T> give(injection: ProviderRegistry) = HashMap<T, String>()
     })
 
-    val instance = inject.gimmeGeneric<MutableList<Scoping.C>>()
+    val instance = inject.gimmeGeneric<MutableMap<Scoping.C, String>>()
 
-    instance.add(Scoping.C())
+    instance.put(Scoping.C(), "")
     assertThat(instance).isNotNull
   }
 
