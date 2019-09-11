@@ -2,15 +2,25 @@ package solid.inject
 
 import solid.inject.core.CoreProviderRegistry
 import solid.inject.core.ProviderRegistry
+import solid.inject.debug.DebugProviderRegistry
+import solid.inject.debug.InjectionDebug
 
 class Injection(
   @PublishedApi
   internal val registry: ProviderRegistry)
 {
-  /**
-   * Suggested constructor for typical use.
-   */
-  constructor() : this(CoreProviderRegistry())
+  companion object
+  {
+    /**
+     * Suggested constructor for typical use.
+     */
+    operator fun invoke() = Injection(CoreProviderRegistry())
+
+    operator fun invoke(debug: InjectionDebug) = Injection(
+      DebugProviderRegistry(
+        CoreProviderRegistry(),
+        debug))
+  }
 
   inline fun <reified K, reified Y> bind() where Y : K
   {
