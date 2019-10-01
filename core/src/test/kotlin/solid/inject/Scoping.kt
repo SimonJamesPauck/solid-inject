@@ -34,6 +34,34 @@ class Scoping
     assertThat(a.c).isSameAs(a.b.c)
   }
 
+  /**
+   * This test is meant to catch a class of bug that comes from
+   * not using the injection context passed to the scoped provider.
+   *
+   * Doing so means inner scopes (B here) will bypass the outer
+   * injection scoped created before (A here) and get a separate
+   * instance for something that should be shared (C here).
+   *
+   * This was initially caused when the scoped provider was
+   * declared as an inner class and referenced the outer class
+   * gimme method.
+   */
+  @Test
+  fun `An inner scope should not disrupt an outer scope`()
+  {
+    val inject = Injection()
+    inject.register(Scoping::A)
+    inject.register(Scoping::B)
+    inject.register(Scoping::C)
+    inject.scope<A, C>()
+    inject.scope<B, C>()
+    inject.scope<A, B>()
+
+    val a = inject.gimme<A>()
+
+    assertThat(a.c).isSameAs(a.b.c)
+  }
+
   class A(val c: C, val b: B)
 
   class B(val c: C)

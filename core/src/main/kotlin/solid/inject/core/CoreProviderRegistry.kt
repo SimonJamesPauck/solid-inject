@@ -39,32 +39,7 @@ class CoreProviderRegistry(
     val provider = registrations[providerId]
 
     // Potential for optional call here
-    return scopedProvider(scopesFor(id), provider)
-  }
-
-  private fun scopedProvider(
-    theseScopes: MutableSet<String>,
-    wrap: Provider?): Provider?
-  {
-    return if (theseScopes.isEmpty())
-    {
-      wrap
-    }
-    else
-    {
-      { context ->
-        val scopedInject = context.fork()
-
-        for (instanceId in theseScopes)
-        {
-          scopedInject.register(
-            instanceId,
-            OnceOff(gimme(instanceId)!!))
-        }
-        // Potential for optional call here
-        wrap!!.invoke(scopedInject)
-      }
-    }
+    return ScopedProvider.from(scopesFor(id), provider)
   }
 
   override fun fork(): ProviderRegistry
