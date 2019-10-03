@@ -10,24 +10,14 @@ internal class DebugContextProvider(
 {
   override fun invoke(registry: ProviderRegistry): Any?
   {
-    val context = if (registry is ContextualRegistry)
-    {
-      registry.newChild()
-    }
-    else
-    {
-      ContextualRegistry(
-        registry,
-        linkedMapOf())
-    }
-
+    val context = ContextualRegistry.from(registry)
     val instance = provider.invoke(context)
 
     val dependant = context.compute(typeId, instanceId(instance!!))
 
     if (registry is ContextualRegistry)
     {
-      registry.dependencies.add(dependant)
+      context.compute(typeId, instanceId(instance!!))
     }
     else
     {
