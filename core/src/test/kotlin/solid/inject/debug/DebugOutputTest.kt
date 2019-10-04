@@ -17,7 +17,7 @@ class DebugOutputTest
   fun `Debug output accurately represents scoped injected dependencies`()
   {
     val debug = TestDebug()
-    val inject = Injection(debug)
+    val inject = Injection.debuggable()
     inject.register(DebugOutputTest::A)
     inject.register(DebugOutputTest::B)
     inject.register(DebugOutputTest::C)
@@ -25,7 +25,7 @@ class DebugOutputTest
     inject.scope<B, C>()
     inject.scope<A, C>()
 
-    val a = inject.gimme<A>()
+    val a = inject.gimme<A>(debug)
 
     assertThat(a.c).isSameAs(a.b.c)
     val infoA = debug.injectionInfo

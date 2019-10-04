@@ -43,4 +43,9 @@ internal class ContextualRegistry private constructor(
   {
     (registry as ContextualRegistry).dependencies.add(dependant)
   }
+
+  fun output(debug: InjectionDebug)
+  {
+    debug.onGimme(dependencies.first())
+  }
 }

@@ -16,10 +16,7 @@ class Injection(
      */
     operator fun invoke() = Injection(CoreProviderRegistry())
 
-    operator fun invoke(debug: InjectionDebug) = Injection(
-      DebugProviderRegistry(
-        CoreProviderRegistry(),
-        debug))
+    fun debuggable() = Injection(DebugProviderRegistry(CoreProviderRegistry()))
   }
 
   inline fun <reified K, reified Y> bind() where Y : K
@@ -41,6 +38,15 @@ class Injection(
     val key = K::class.qualifiedName!!
     // Potential for optional call here
     return registry.gimme(key)!!.invoke(registry) as K
+  }
+
+  inline fun <reified K> gimme(debug: InjectionDebug): K
+  {
+    check(registry is DebugProviderRegistry) { "Can only use this with a debuggable injector" }
+
+    val key = K::class.qualifiedName!!
+    // Potential for optional call here
+    return registry.gimme(key, debug)!!.invoke(registry) as K
   }
 
   inline fun <reified T, reified U> scope()
