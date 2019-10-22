@@ -1,4 +1,6 @@
-# Solid Injector
+![SOLID Inject](logo.svg)
+
+# A Dependency Injector for SOLID Design
 
 ## Principles & Goals
 
@@ -18,3 +20,8 @@ The main identified shortcomings of manual dependency management are
 Additional goals might include the following
 
 - Make it easy to visualise and debug the dependency graph.
+
+## Credits
+
+- [Material Design Colours](https://material.io/resources/color/)
+- [Josefin Sans Font](https://fonts.google.com/specimen/Josefin+Sans)
