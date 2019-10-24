@@ -17,9 +17,11 @@ The main identified shortcomings of manual dependency management are
 - Boilerplate for decoupling construction of new instances other than at the composition root.
 - Instantiation scoping. i.e. Reusing instances across certain parts of a dependency tree.
 
-Additional goals might include the following
+## Additional Goals
 
-- Make it easy to visualise and debug the dependency graph.
+These might include the following
+
+- Make it easy to visualize and debug the dependency graph.
 
 ## Credits
 
