@@ -15,3 +15,10 @@ cache:
   directories:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
+
+deploy:
+  provider: releases
+  file: "core/build/libs/*.jar"
+  on:
+    tags: true
+  edge: true
