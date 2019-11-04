@@ -4,7 +4,7 @@ plugins {
   kotlin("jvm") version "1.3.31"
 }
 
-version = "0.1-SNAPSHOT"
+version = "0.1.0"
 
 dependencies {
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
