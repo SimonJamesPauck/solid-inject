@@ -9,3 +9,8 @@ subprojects {
     mavenCentral()
   }
 }
+
+tasks.withType<Wrapper> {
+  gradleVersion = "6.0.1"
+  distributionType = Wrapper.DistributionType.BIN
+}
