@@ -1,5 +1,8 @@
-rootProject.name = "solid inject"
+rootProject.name = "solid-inject"
 include 'core'
 include 'apitests'
 include 'generated'
 
+rootProject.children.each {
+    it.name = "solid-inject-" + it.name
+}

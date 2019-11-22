@@ -3,7 +3,7 @@ plugins {
 }
 
 subprojects {
-  group = "solid.inject"
+  group = "io.github.spauck"
 
   repositories {
     mavenCentral()
