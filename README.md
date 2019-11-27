@@ -24,6 +24,11 @@ This library is currently published as a maven artifact through [Jitpack.io](htt
 The recommended tag is `master-SNAPSHOT`.
 Only the `core` module is required.
 
+## Basic Usage
+
+Usage is documented through the [api tests](apitests/src/test/kotlin/solid/inject/).
+
+For most usage it should not be necessary to fill constructor parameters manually.
 
 ## Credits
 
