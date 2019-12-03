@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-  kotlin("jvm") version "1.3.31"
+  kotlin("jvm")
 }
 
 version = "0.1-SNAPSHOT"
@@ -9,7 +9,7 @@ version = "0.1-SNAPSHOT"
 dependencies {
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
-  implementation(project(":core"))
+  implementation(project(":solid-inject-core"))
 
   testImplementation("org.assertj:assertj-core:3.12.2")
   testImplementation("org.junit.jupiter:junit-jupiter-api:5.4.2")

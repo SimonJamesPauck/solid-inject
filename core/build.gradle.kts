@@ -1,7 +1,8 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-  kotlin("jvm") version "1.3.31"
+  kotlin("jvm")
+  id("maven-publish")
 }
 
 version = "0.1.0"
@@ -22,4 +23,23 @@ tasks.withType<Test> {
 }
 tasks.withType<KotlinCompile> {
   kotlinOptions.jvmTarget = "1.8"
+}
+val sourcesJar by tasks.creating(Jar::class) {
+  archiveClassifier.set("sources")
+  from(sourceSets.main.get().allSource)
+}
+val javadocJar by tasks.creating(Jar::class) {
+  dependsOn.add(tasks.javadoc)
+  archiveClassifier.set("javadoc")
+  from(tasks.javadoc)
+}
+
+publishing {
+  publications {
+    create<MavenPublication>("maven") {
+      artifact(sourcesJar)
+      artifact(javadocJar)
+      artifact(tasks.jar.get())
+    }
+  }
 }
