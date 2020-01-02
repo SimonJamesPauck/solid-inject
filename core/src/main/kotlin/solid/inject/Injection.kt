@@ -21,21 +21,21 @@ class Injection(
 
   inline fun <reified K, reified Y> bind() where Y : K
   {
-    val abstract = K::class.qualifiedName!!
-    val implementer = Y::class.qualifiedName!!
+    val abstract = typeKey<K>()
+    val implementer = typeKey<Y>()
     registry.bind(abstract, implementer)
   }
 
   inline fun <reified K> provider(
     noinline constr: Injection.() -> K)
   {
-    val key = K::class.qualifiedName!!
+    val key = typeKey<K>()
     registry.register(key) { core -> constr(Injection(core)) }
   }
 
   inline fun <reified K> gimme(): K
   {
-    val key = K::class.qualifiedName!!
+    val key = typeKey<K>()
     // Potential for optional call here
     return registry.gimme(key)!!.invoke(registry) as K
   }
@@ -44,15 +44,15 @@ class Injection(
   {
     check(registry is DebugProviderRegistry) { "Can only use this with a debuggable injector" }
 
-    val key = K::class.qualifiedName!!
+    val key = typeKey<K>()
     // Potential for optional call here
     return registry.gimme(key, debug)!!.invoke(registry) as K
   }
 
   inline fun <reified T, reified U> scope()
   {
-    val scopeThis = U::class.qualifiedName!!
-    val toThat = T::class.qualifiedName!!
+    val scopeThis = typeKey<U>()
+    val toThat = typeKey<T>()
     registry.scope(toThat, scopeThis)
   }
 
