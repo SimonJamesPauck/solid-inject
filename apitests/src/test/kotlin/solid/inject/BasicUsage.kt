@@ -1,6 +1,7 @@
 package solid.inject
 
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatExceptionOfType
 import org.junit.jupiter.api.Test
 
 class BasicUsage
@@ -68,9 +69,33 @@ class BasicUsage
     assertThat(instance.anAbstract).isNotNull
   }
 
+  @Test
+  fun `generics are not supported`()
+  {
+    assertThatExceptionOfType(IllegalArgumentException::class.java)
+      .isThrownBy { Injection().bind<List<String>, StringList>() }
+    assertThatExceptionOfType(IllegalArgumentException::class.java)
+      .isThrownBy { Injection().bind<List<String>, MutableList<String>>() }
+    assertThatExceptionOfType(IllegalArgumentException::class.java)
+      .isThrownBy { Injection().scope<List<String>, String>() }
+  }
+
+  @Test
+  fun `use extension to instantiate a specified generic type (work-around)`()
+  {
+    val inject = Injection()
+
+    inject.register(::StringList)
+    val instance = inject.gimme<StringList>()
+
+    assertThat(instance).isNotNull
+  }
+
   class Nested(val anAbstract: Abstract)
 
   class Concrete : Abstract
 
   interface Abstract
+
+  class StringList : ArrayList<String>()
 }
