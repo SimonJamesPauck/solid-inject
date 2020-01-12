@@ -27,5 +27,7 @@ Only the `core` module is required.
 
 ## Credits
 
+The following resources were used for the logo.
+
 - [Material Design Colours](https://material.io/resources/color/)
 - [Josefin Sans Font](https://fonts.google.com/specimen/Josefin+Sans)
