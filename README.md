@@ -30,6 +30,22 @@ Usage is documented through the [api tests](apitests/src/test/kotlin/solid/injec
 
 For most usage it should not be necessary to fill constructor parameters manually.
 
+## Features
+
+### Injector Forking
+
+Forking an injector produces an new injector (child) with the same context as the one from which it was forked (parent).
+The child will have the same bindings, registrations and scopings as the parent, however, they are distinct.
+The child can be modified without affecting the parent.
+The parent can be modified without affecting the child.
+They will, however, still be bound through any state present in their registrations unless those types are re-registered.
+This feature is the basis for scoping.
+
+### Instance Scoping
+
+Scoping allows one type's instance creation to be constrained within the dependency tree of another type.
+This is commonly required and used for singleton (application scoped) or web-request scoped instances, among others.
+
 ## Credits
 
 The following resources were used for the logo.
