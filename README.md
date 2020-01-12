@@ -8,6 +8,7 @@ The design and features of this library should support the following
 
 - Encourage the use of the _dependency injection pattern_ and other SOLID principles.
 - Make code simpler to understand and work with.
+- Make it easy to visualize and debug the dependency graph.
 
 These relative goals should be assessed against the benchmark of manual dependency management.
 
@@ -17,11 +18,12 @@ The main identified shortcomings of manual dependency management are
 - Boilerplate for decoupling construction of new instances other than at the composition root.
 - Instantiation scoping. i.e. Reusing instances across certain parts of a dependency tree.
 
-## Additional Goals
+## Getting Started
 
-These might include the following
+This library is currently published as a maven artifact through [Jitpack.io](https://jitpack.io/#spauck/solid-inject).
+The recommended tag is `master-SNAPSHOT`.
+Only the `core` module is required.
 
-- Make it easy to visualize and debug the dependency graph.
 
 ## Credits
 
