@@ -46,6 +46,17 @@ This feature is the basis for scoping.
 Scoping allows one type's instance creation to be constrained within the dependency tree of another type.
 This is commonly required and used for singleton (application scoped) or web-request scoped instances, among others.
 
+## Development
+
+### Project Modules
+
+- Core: contains the production code.
+- Apitests: is purely for testing the public API.
+  This is a distinct module so it can depend on core in the same way any other project would.
+  This module also provides the bulk of the documentation by way of code examples.
+- Generated: is a small app used to generate the InjectionExtensions.
+  It has yet to be automatically incorporated into the build.
+
 ## Credits
 
 The following resources were used for the logo.
