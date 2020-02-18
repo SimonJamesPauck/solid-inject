@@ -30,11 +30,11 @@ class DebugOutputTest
     assertThat(a.c).isSameAs(a.b.c)
     val infoA = debug.injectionInfo
     val parent = this::class.java.name
-    assertThat(infoA.type).isEqualTo("$parent.A")
-    val infoB = infoA.dependencyOfType("$parent.B")!!
-    assertThat(infoA.dependencyOfType("$parent.C")!!)
-      .isEqualTo(infoB.dependencyOfType("$parent.C")!!)
-    assertThat(infoA.dependencyOfType("$parent.C")!!.dependencies).isEmpty()
+    assertThat(infoA.type).isEqualTo("$parent\$A")
+    val infoB = infoA.dependencyOfType("$parent\$B")!!
+    assertThat(infoA.dependencyOfType("$parent\$C")!!)
+      .isEqualTo(infoB.dependencyOfType("$parent\$C")!!)
+    assertThat(infoA.dependencyOfType("$parent\$C")!!.dependencies).isEmpty()
   }
 
   private fun InjectionInfo.dependencyOfType(typeId: String) = this

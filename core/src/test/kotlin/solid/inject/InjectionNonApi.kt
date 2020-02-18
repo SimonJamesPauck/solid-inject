@@ -1,14 +1,26 @@
 package solid.inject
 
-import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class InjectionNonApi
 {
   @Test
-  fun `typeKey is not supported for generic types`()
+  fun `typeKey returns the qualified name for a type`()
   {
-    Assertions.assertThatExceptionOfType(IllegalArgumentException::class.java)
-      .isThrownBy { typeKey<List<String>>() }
+    assertThat(typeKey<TestInterface>())
+      .isEqualTo("solid.inject.InjectionNonApi\$TestInterface")
   }
+
+  @Test
+  fun `typeKey includes generic parameter types`()
+  {
+    assertThat(typeKey<TestGenerics<TestInterface>>())
+      .isEqualTo("solid.inject.InjectionNonApi\$TestGenerics<solid.inject.InjectionNonApi\$TestInterface>")
+  }
+
+  private interface TestInterface
+
+  @Suppress("unused")
+  private class TestGenerics<T>
 }

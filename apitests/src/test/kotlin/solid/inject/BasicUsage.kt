@@ -2,6 +2,7 @@ package solid.inject
 
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatExceptionOfType
+import org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import org.junit.jupiter.api.Test
 
 class BasicUsage
@@ -70,25 +71,37 @@ class BasicUsage
   }
 
   @Test
-  fun `generics are not supported`()
-  {
-    assertThatExceptionOfType(IllegalArgumentException::class.java)
-      .isThrownBy { Injection().bind<List<String>, StringList>() }
-    assertThatExceptionOfType(IllegalArgumentException::class.java)
-      .isThrownBy { Injection().bind<List<String>, MutableList<String>>() }
-    assertThatExceptionOfType(IllegalArgumentException::class.java)
-      .isThrownBy { Injection().scope<List<String>, String>() }
-  }
-
-  @Test
-  fun `use extension to instantiate a specified generic type (work-around)`()
+  fun `Specified generics must match exactly to resolve`()
   {
     val inject = Injection()
 
-    inject.register(::StringList)
-    val instance = inject.gimme<StringList>()
+    inject.register<TestGenerics<List<String>>>(::TestGenerics)
+    val instance = inject.gimme<TestGenerics<List<String>>>()
 
     assertThat(instance).isNotNull
+  }
+
+  @Test
+  fun `Specified generics that do not match do not resolve`()
+  {
+    val inject = Injection()
+
+    inject.register<TestGenerics<Any>>(::TestGenerics)
+
+    assertThatExceptionOfType(NullPointerException::class.java)
+      .isThrownBy { inject.gimme<TestGenerics<List<String>>>() }
+  }
+
+  @Test
+  fun `Unspecified generics are not supported`()
+  {
+    assertThatIllegalArgumentException()
+      .isThrownBy { registerUnspecifiedGeneric<String>(Injection()) }
+  }
+
+  private inline fun <reified T> registerUnspecifiedGeneric(inject: Injection)
+  {
+    inject.register<TestGenerics<List<T>>>(::TestGenerics)
   }
 
   class Nested(val anAbstract: Abstract)
@@ -97,5 +110,5 @@ class BasicUsage
 
   interface Abstract
 
-  class StringList : ArrayList<String>()
+  class TestGenerics<T>
 }
