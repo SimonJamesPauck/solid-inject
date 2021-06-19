@@ -11,6 +11,6 @@ subprojects {
 }
 
 tasks.withType<Wrapper> {
-  gradleVersion = "6.0.1"
+  gradleVersion = "7.1"
   distributionType = Wrapper.DistributionType.BIN
 }
