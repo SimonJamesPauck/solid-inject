@@ -12,12 +12,15 @@ dependencies {
   implementation("com.squareup:kotlinpoet:1.3.0")
   implementation(project(":solid-inject-core"))
 
-  testImplementation("org.assertj:assertj-core:3.12.2")
-  testImplementation("org.junit.jupiter:junit-jupiter-api:5.4.2")
+  testImplementation("org.assertj:assertj-core:3.22.0")
+  testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
 
-  testRuntime("org.junit.jupiter:junit-jupiter-engine:5.4.2")
+  testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
 }
 
+tasks.withType<Test> {
+  useJUnitPlatform()
+}
 tasks.withType<KotlinCompile> {
   kotlinOptions.jvmTarget = "1.8"
 }

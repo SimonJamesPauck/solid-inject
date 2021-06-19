@@ -11,11 +11,11 @@ dependencies {
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
 
-  testImplementation("org.assertj:assertj-core:3.12.2")
-  testImplementation("org.junit.jupiter:junit-jupiter-api:5.4.2")
-  testImplementation("org.json:json:20190722")
+  testImplementation("org.assertj:assertj-core:3.22.0")
+  testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
+  testImplementation("org.json:json:20220320")
 
-  testRuntime("org.junit.jupiter:junit-jupiter-engine:5.4.2")
+  testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
 }
 
 tasks.withType<Test> {
