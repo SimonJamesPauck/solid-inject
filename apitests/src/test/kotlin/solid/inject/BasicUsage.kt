@@ -93,6 +93,16 @@ class BasicUsage
   }
 
   @Test
+  fun `Specified generics that do not match do not resolve 2`()
+  {
+    val inject = Injection()
+
+    inject.register<TestGenerics<*>> { TestGenerics<Any>() }
+
+    assertThat(inject.gimme<TestGenerics<List<String>>>()).isNotNull
+  }
+
+  @Test
   fun `Unspecified generics are not supported`()
   {
     assertThatIllegalArgumentException()
