@@ -1,11 +1,12 @@
 package solid.inject.core
 
+internal class ScopedProvider
 /*
  * Private constructor here forces using the companion
  * builder function.
  */
-internal class ScopedProvider private constructor(
-  private val scopedToThis: MutableSet<String>,
+private constructor(
+  private val scopedToThis: Set<String>,
   private val wrap: Provider?) : Provider
 {
   companion object
@@ -14,7 +15,7 @@ internal class ScopedProvider private constructor(
      * Only wraps with scoping if it is needed.
      */
     fun from(
-      scopedToThis: MutableSet<String>,
+      scopedToThis: Set<String>,
       wrap: Provider?): Provider?
     {
       return if (scopedToThis.isEmpty()) wrap
