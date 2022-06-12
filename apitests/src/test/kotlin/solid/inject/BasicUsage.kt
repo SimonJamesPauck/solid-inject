@@ -57,6 +57,19 @@ class BasicUsage
   }
 
   @Test
+  fun `can inject directly into a function without registration`()
+  {
+    val inject = Injection()
+    inject.bind<Abstract, Concrete>()
+    inject.register(::Concrete)
+
+    val instance = inject.gimmeNow(::Nested)
+
+    assertThat(instance).isNotNull
+    assertThat(instance.anAbstract).isNotNull
+  }
+
+  @Test
   fun `can use the injector inside a provider function`()
   {
     val inject = Injection()
