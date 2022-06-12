@@ -46,17 +46,16 @@ This feature is the basis for scoping.
 Scoping allows one type's instance creation to be constrained within the dependency tree of another type.
 This is commonly required and used for singleton (application scoped) or web-request scoped instances, among others.
 
-### Generics.
+### Generics
 
 Binding and injecting fully specified generic types is supported.
 See [BasicUsage](./apitests/src/test/kotlin/solid/inject/BasicUsage.kt)) for examples.
 
-## Not Supported
+## To-do
 
-### Generics.
+### Generics
 
 Binding and injecting unspecified (or wildcard) generic types is not yet supported.
-This is a desired feature for the future.
 If this were supported it would look something like the following.
 
 ```kotlin
@@ -67,6 +66,15 @@ If this were supported it would look something like the following.
   // The following would resolve correctly
   val instance = inject.gimme<GenericType<String>>()
 ```
+
+### Injector features
+
+- Be able to inject injectors, with the correct scoping.
+- Support an explicit singleton scope.
+  The current scoping is not always the most intuitive or convenient.
+- The ability to do one-off injection by asking the injector to fill the parameters on function without needing to first bind that function.
+- Be able to inject providers to obtain instances without needing a reference to an injector.
+  Providers should probably be injected as `Lazy<>` or `Supplier<>` to avoid a direct reference in code.
 
 ## Development
 
