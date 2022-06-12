@@ -41,4 +41,39 @@ internal class MainKtTest
 
     assertThat(result.toString().trimIndent()).isEqualTo(expected)
   }
+
+  @Test
+  fun `generate 'gimmeNow' method with no constructor paramaters`()
+  {
+    val expected =
+      """
+      inline fun <reified K> Injection.gimmeNow(noinline constr: () -> K): K = constr()
+      """.trimIndent()
+
+    val result = StringBuilder()
+    FileSpec.builder("", "")
+      .addFunction(generateGimmeNowFunc(0))
+      .build()
+      .writeTo(result)
+
+    assertThat(result.toString().trimIndent()).isEqualTo(expected)
+  }
+
+  @Test
+  fun `generate 'gimmeNow' method with two constructor paramaters`()
+  {
+    val expected =
+      """
+      inline fun <reified K, reified A, reified B> Injection.gimmeNow(noinline constr: (A, B) -> K): K =
+          constr(gimme(), gimme())
+      """.trimIndent()
+
+    val result = StringBuilder()
+    FileSpec.builder("", "")
+      .addFunction(generateGimmeNowFunc(2))
+      .build()
+      .writeTo(result)
+
+    assertThat(result.toString().trimIndent()).isEqualTo(expected)
+  }
 }
