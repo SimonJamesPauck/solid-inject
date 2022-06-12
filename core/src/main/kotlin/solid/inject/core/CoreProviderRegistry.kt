@@ -23,21 +23,17 @@ class CoreProviderRegistry(
     toThat: String,
     scopeThis: String)
   {
-    scopesFor(toThat).add(scopeThis)
-  }
-
-  private fun scopesFor(
-    id: String): MutableSet<String>
-  {
-    return scopes.getOrPut(id, ::mutableSetOf)
+    scopes
+      .getOrPut(toThat, ::mutableSetOf)
+      .add(scopeThis)
   }
 
   override fun gimme(id: String): Provider?
   {
-    val provider = registrations[id]
-
     // Potential for optional call here
-    return ScopedProvider.from(scopesFor(id), provider)
+    return ScopedProvider.from(
+      scopes[id] ?: emptySet(),
+      registrations[id])
   }
 
   override fun fork(): ProviderRegistry
